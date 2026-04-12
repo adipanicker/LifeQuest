@@ -49,6 +49,14 @@ export default function History() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    document.title = "Quests History | LifeQuest";
+
+    return () => {
+      document.title = "LifeQuest";
+    };
+  }, []);
+
+  useEffect(() => {
     api
       .get("/todos")
       .then((res) => setTodos(res.data))
@@ -167,7 +175,7 @@ export default function History() {
             </p>
           </div>
         ) : (
-          sortedGroups(([dateLabel, items]) => (
+          sortedGroups.map(([dateLabel, items]) => (
             <div
               key={dateLabel}
               className="bg-white border border-gray-200 rounded-xl p-4"

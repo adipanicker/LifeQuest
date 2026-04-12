@@ -12,6 +12,14 @@ export default function Dashboard() {
   const [newTodo, setNewTodo] = useState("");
   const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    document.title = "Today's Quests | LifeQuest";
+
+    return () => {
+      document.title = "LifeQuest";
+    };
+  }, []);
+
   const greeting = () => {
     const hour = new Date().getHours();
     if (hour < 12) return "Good morning";
