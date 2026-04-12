@@ -9,7 +9,12 @@ const authRoutes = require("./routes/auth");
 const todoRoutes = require("./routes/todos");
 
 const app = express();
-app.use(cors());
+const corsOptions = {
+  origin: ["http://localhost:5173", "https://life-quest-chi.vercel.app"],
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use("/api/auth", authRoutes);
