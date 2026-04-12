@@ -59,7 +59,7 @@ export default function Register() {
               onChange={handleChange}
               placeholder="Aditya"
               required
-              className="w-full px-4 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus: border-primary"
+              className="w-full px-4 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:border-primary"
             />
           </div>
           <div>
