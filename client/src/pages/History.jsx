@@ -67,11 +67,13 @@ export default function History() {
     return groups;
   }, {});
 
-  const sortedGroups = Object.entries(grouped).sort((a, b) => {
-    const dateA = new Date(grouped[a[0][0]].created_at);
-    const dateB = new Date(grouped[b[0][0]].created_at);
-    return dateB - dateA;
-  });
+  const sortedGroups = Object.entries(grouped)
+    .filter(([_, items]) => items.length > 0)
+    .sort((a, b) => {
+      const dateA = new Date(a[1][0].created_at);
+      const dateB = new Date(b[1][0].created_at);
+      return dateB - dateA;
+    });
 
   const totalCompleted = todos.filter((t) => t.is_completed).length;
   const totalXPEarned = todos.filter((t) => t.is_completed).length * 10;
