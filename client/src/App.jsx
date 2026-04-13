@@ -18,11 +18,36 @@ const ProtectedRoute = ({ children }) => {
   return user ? children : <Navigate to="/login" />;
 };
 
+const GuestRoute = ({ children }) => {
+  const { user, loading } = useAuth();
+  if (loading)
+    return (
+      <div className="min-h-screen flex items-center justify-center text-gray-500">
+        Loading...
+      </div>
+    );
+  return user ? <Navigate to="/dashboard" /> : children;
+};
+
 export default function App() {
   return (
     <Routes>
-      <Route path="/register" element={<Register />} />
-      <Route path="/login" element={<Login />} />
+      <Route
+        path="/register"
+        element={
+          <GuestRoute>
+            <Register />
+          </GuestRoute>
+        }
+      />
+      <Route
+        path="/login"
+        element={
+          <GuestRoute>
+            <Login />
+          </GuestRoute>
+        }
+      />
       <Route
         path="/dashboard"
         element={
