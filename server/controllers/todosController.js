@@ -109,4 +109,39 @@ const deleteTodo = async (req, res) => {
   }
 };
 
-module.exports = { getTodos, createTodo, completeTodo, deleteTodo };
+//Resurrect a todo
+const resurrectTodo = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const original = await pool.query(
+      `SELECT * FROM todos WHERE id = $1 AND user_id = $2`,
+      [id, req.userId],
+    );
+    if (original.rows.length === 0) {
+      return res.status(404).json({ message: "Todo not found" });
+    }
+
+    const result = await pool.query(
+      `INSERT INTO todos (user_id, title, xp_reward)
+      VALUES ($1, $2, $3) RETURNING *`,
+      [
+        original.rows[0].user_id,
+        original.rows[0].title,
+        original.rows[0].xp_reward,
+      ],
+    );
+
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+module.exports = {
+  getTodos,
+  createTodo,
+  completeTodo,
+  deleteTodo,
+  resurrectTodo,
+};

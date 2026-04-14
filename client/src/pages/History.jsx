@@ -86,14 +86,14 @@ export default function History() {
   const totalCompleted = todos.filter((t) => t.is_completed).length;
   const totalXPEarned = todos.filter((t) => t.is_completed).length * 10;
 
-  //   const handleResurrect = async (id) => {
-  //   try {
-  //     const res = await api.patch(`/todos/${id}/resurrect`)
-  //     setTodos(todos.map(t => t.id === id ? res.data : t))
-  //   } catch (err) {
-  //     console.error(err)
-  //   }
-  // }
+  const handleResurrect = async (id) => {
+    try {
+      const res = await api.patch(`/todos/${id}/resurrect`);
+      setTodos([res.data, ...todos]);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const handleDelete = async (id) => {
     try {
@@ -226,7 +226,7 @@ export default function History() {
 
                   {/* +Today button — shown for ALL archive items */}
                   <button
-                    // onClick={() => handleResurrect(todo.id)}
+                    onClick={() => handleResurrect(todo.id)}
                     className="text-xs text-primary border border-primary-light bg-primary-light px-2.5 py-1 rounded-full hover:bg-primary hover:text-white transition-colors"
                   >
                     + Today
