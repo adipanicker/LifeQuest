@@ -7,6 +7,7 @@ dotenv.config();
 const pool = require("./db");
 const authRoutes = require("./routes/auth");
 const todoRoutes = require("./routes/todos");
+const goalsRoutes = require("./routes/goals");
 
 const app = express();
 const corsOptions = {
@@ -19,6 +20,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/todos", todoRoutes);
+app.use("/api/goals", goalsRoutes);
 
 app.get("/", (req, res) => {
   res.json({ message: "LifeQuest API is live" });

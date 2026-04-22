@@ -11,6 +11,7 @@ export default function Dashboard() {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState("");
   const [loading, setLoading] = useState(true);
+  const [goals, setGoals] = useState([]);
 
   useEffect(() => {
     document.title = "Today's Quests | LifeQuest";
@@ -53,6 +54,13 @@ export default function Dashboard() {
       .finally(() => setLoading(false));
   }, []);
 
+  useEffect(() => {
+    api
+      .get("/goals")
+      .then((res) => setGoals(res.data.filter((g) => !g.is_completed)))
+      .catch((err) => console.error(err));
+  }, []);
+
   const handleAdd = async () => {
     if (!newTodo.trim()) return;
     try {
@@ -85,6 +93,15 @@ export default function Dashboard() {
     try {
       await api.delete(`/todos/${id}`);
       setTodos(todos.filter((t) => t.id !== id));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleLink = async (todoId, goalId) => {
+    try {
+      const res = await api.patch(`/todos/${todoId}/link`, { goal_id: goalId });
+      setTodos(todos.map((t) => (t.id === todoId ? res.data : t)));
     } catch (err) {
       console.error(err);
     }
@@ -183,8 +200,10 @@ export default function Dashboard() {
                 <TodoItem
                   key={todo.id}
                   todo={todo}
+                  goals={goals}
                   onComplete={handleComplete}
                   onDelete={handleDelete}
+                  onLink={handleLink}
                 />
               ))}
 
@@ -197,8 +216,10 @@ export default function Dashboard() {
                     <TodoItem
                       key={todo.id}
                       todo={todo}
+                      goals={goals}
                       onComplete={handleComplete}
                       onDelete={handleDelete}
+                      onLink={handleLink}
                     />
                   ))}
                 </div>

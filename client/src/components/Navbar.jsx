@@ -47,6 +47,16 @@ export default function Navbar() {
         >
           History
         </Link>
+        <Link
+          to="/goals"
+          className={`text-sm px-4 py-1.5 rounded-lg transition-colors ${
+            location.pathname === "/goals"
+              ? "bg-primary text-white"
+              : "text-gray-500 hover: bg-gray-100"
+          }`}
+        >
+          Goals
+        </Link>
       </div>
 
       <div className="flex items-center gap-3">

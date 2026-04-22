@@ -5,6 +5,7 @@ const {
   getTodos,
   createTodo,
   completeTodo,
+  linkToGoal,
   deleteTodo,
   resurrectTodo,
 } = require("../controllers/todosController");
@@ -15,5 +16,6 @@ router.post("/", authMiddleware, createTodo);
 router.patch("/:id/complete", authMiddleware, completeTodo);
 router.delete("/:id", authMiddleware, deleteTodo);
 router.patch("/:id/resurrect", authMiddleware, resurrectTodo);
+router.patch("/:id/link", authMiddleware, linkToGoal);
 
 module.exports = router;
