@@ -68,7 +68,7 @@ export default function GoalCard({ goal, onComplete, onDelete }) {
       <div className="mb-2">
         <div className="flex justify-between items-center mb-1.5">
           <span className="text-xs text-gray-400">
-            {completed} / {total} linked tasks done
+            {completed} / {total} linked tasks done.
           </span>
           <span className="text-xs font-medium text-primary">{percent}%</span>
         </div>
