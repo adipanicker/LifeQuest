@@ -5,6 +5,8 @@ import Navbar from "../components/Navbar";
 import StatCard from "../components/StatCard";
 import XPBar from "../components/XPBar";
 import TodoItem from "../components/TodoItem";
+import confetti from "canvas-confetti";
+import toast from "react-hot-toast";
 
 export default function Dashboard() {
   const { user, setUser } = useAuth();
@@ -84,8 +86,33 @@ export default function Dashboard() {
         ),
       );
       setUser(res.data.user);
+
+      //toast banner
+      toast("Quest Complete! Keep going 🔥", {
+        duration: 3000,
+        position: "bottom-center", // Centers it like an in-game notification
+        style: {
+          background: "#1e293b", // Tailwind slate-800
+          color: "#f8fafc", // Tailwind slate-50
+          borderRadius: "12px",
+          border: "1px solid #334155", // Tailwind slate-700
+          padding: "12px 24px",
+          fontWeight: "500",
+          fontSize: "15px",
+          boxShadow:
+            "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+        },
+        icon: "⚔️",
+      });
     } catch (err) {
       console.error(err);
+      toast.error("Failed to complete quest.", {
+        style: {
+          background: "#1e293b",
+          color: "#f8fafc",
+          border: "1px solid #7f1d1d",
+        },
+      });
     }
   };
 
