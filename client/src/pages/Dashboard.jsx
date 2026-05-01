@@ -5,6 +5,7 @@ import Navbar from "../components/Navbar";
 import StatCard from "../components/StatCard";
 import XPBar from "../components/XPBar";
 import TodoItem from "../components/TodoItem";
+import AISuggestions from "../components/AISuggestions";
 import confetti from "canvas-confetti";
 import toast from "react-hot-toast";
 
@@ -138,6 +139,10 @@ export default function Dashboard() {
     if (e.key === "Enter") handleAdd();
   };
 
+  const handleAccept = (newTodo) => {
+    setTodos((prev) => [newTodo, ...prev]);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
@@ -174,6 +179,9 @@ export default function Dashboard() {
         <div className="mb-4">
           <XPBar xp={user?.xp || 0} level={user?.level || 1} />
         </div>
+
+        {/* AI suggestions */}
+        <AISuggestions onAccepted={handleAccept} />
 
         {/* Streak Banner */}
         {user?.streak > 0 && (

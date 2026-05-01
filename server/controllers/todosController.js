@@ -37,10 +37,12 @@ const completeTodo = async (req, res) => {
 
   try {
     //check todo exists and belongs to this user
+    console.log("completing todo id:", id, "for user:", req.userId);
     const todo = await pool.query(
       "SELECT * FROM todos WHERE id = $1 AND user_id = $2",
       [id, req.userId],
     );
+    console.log("todo found:", todo.rows);
 
     if (todo.rows.length === 0) {
       return res.status(404).json({ message: "Todo not found" });
@@ -51,8 +53,13 @@ const completeTodo = async (req, res) => {
     }
 
     // Award XP to user and check for level up
+    const isAiSuggested = todo.rows[0].is_ai_suggested;
     const isGoalLinked = todo.rows[0].goal_id !== null;
-    const xpReward = isGoalLinked ? 20 : todo.rows[0].xp_reward;
+    const xpReward = isAiSuggested
+      ? 25
+      : isGoalLinked
+        ? 20
+        : todo.rows[0].xp_reward;
 
     //Mark todo as completed
     await pool.query(
