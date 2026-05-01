@@ -9,7 +9,11 @@ export default function Goals() {
   const [goals, setGoals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
-  const [form, setForm] = useState({ title: "", deadline: "" });
+  const [form, setForm] = useState({
+    title: "",
+    deadline: "",
+    description: "",
+  });
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
@@ -116,6 +120,23 @@ export default function Goals() {
                 onChange={(e) => setForm({ ...form, title: e.target.value })}
                 placeholder="e.g. Learn DSA in 30 days"
                 className="w-full text-sm px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 focus:outline-none focus:border-primary"
+              />
+            </div>
+            <div>
+              <label className="block text-xs text-gray-500 mb-1">
+                Description{" "}
+                <span className="text-gray-400">
+                  (Optional but helps AI suggest better tasks)
+                </span>
+              </label>
+              <textarea
+                value={form.description}
+                onChange={(e) =>
+                  setForm({ ...form, description: e.target.value })
+                }
+                placeholder="e.g. I want to solve 30 LeetCode problems in 30 days focusing on arrays, trees and graphs using C++"
+                rows={3}
+                className="w-full text-sm px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 focus:outline-none focus:border-primary resize-none"
               />
             </div>
             <div>

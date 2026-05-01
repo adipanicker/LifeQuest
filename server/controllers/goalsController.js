@@ -21,7 +21,7 @@ const getGoals = async (req, res) => {
 };
 
 const createGoal = async (req, res) => {
-  const { title, deadline } = req.body;
+  const { title, deadline, description } = req.body;
 
   try {
     const goalCount = await pool.query(
@@ -35,9 +35,9 @@ const createGoal = async (req, res) => {
     }
 
     const result = await pool.query(
-      `INSERT INTO goals (user_id, title, deadline)
-            VALUES ($1, $2, $3) RETURNING *`,
-      [req.userId, title, deadline || null],
+      `INSERT INTO goals (user_id, title, deadline, description)
+            VALUES ($1, $2, $3, $4) RETURNING *`,
+      [req.userId, title, deadline || null, description || null],
     );
     res.status(201).json(result.rows[0]);
   } catch (err) {

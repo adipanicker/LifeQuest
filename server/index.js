@@ -3,11 +3,15 @@ const cors = require("cors");
 
 const dotenv = require("dotenv");
 dotenv.config();
+const cron = require("node-cron");
 
 const pool = require("./db");
 const authRoutes = require("./routes/auth");
 const todoRoutes = require("./routes/todos");
 const goalsRoutes = require("./routes/goals");
+const suggestionRoutes = require("./routes/suggestions");
+
+const { generateSuggestionsForAllUsers } = require("./services/aiSuggestions");
 
 const app = express();
 const corsOptions = {
@@ -21,6 +25,7 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/todos", todoRoutes);
 app.use("/api/goals", goalsRoutes);
+app.use("/api/suggestions", suggestionRoutes);
 
 app.get("/", (req, res) => {
   res.json({ message: "LifeQuest API is live" });
@@ -29,6 +34,12 @@ app.get("/", (req, res) => {
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
+});
+
+// Runs at 6:00 AM IST every day (IST = UTC+5:30, so 00:30 UTC)
+cron.schedule("30 0 * * *", async () => {
+  console.log("Running daily AI suggestion generation...");
+  await generateSuggestionsForAllUsers();
 });
 
 //Test DB
