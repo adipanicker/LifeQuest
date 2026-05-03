@@ -190,7 +190,7 @@ export default function History() {
                   </span>
                   {items.every((t) => t.is_completed) && (
                     <span className="text-xs bg-primary-light text-primary-dark px-2 py-0.5 rounded-full font-medium">
-                      perfect day! ✨
+                      perfect day ✨
                     </span>
                   )}
                 </div>
