@@ -6,6 +6,7 @@ export default function AISuggestions({ onAccepted }) {
   const [suggestions, setSuggestions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [triggering, setTriggering] = useState(false);
+  const [limitReached, setLimitReached] = useState(false);
 
   useEffect(() => {
     fetchSuggestions();
@@ -25,9 +26,17 @@ export default function AISuggestions({ onAccepted }) {
   const handleTrigger = async () => {
     setTriggering(true);
     try {
-      await api.post("/suggestions/trigger");
+      const res = await api.post("/suggestions/trigger");
+      if (res.status === 429) {
+        // show limit message
+        setLimitReached(true);
+        return;
+      }
       await fetchSuggestions();
     } catch (err) {
+      if (err.response?.status === 429) {
+        setLimitReached(true);
+      }
       console.error(err);
     } finally {
       setTriggering(false);
@@ -85,13 +94,19 @@ export default function AISuggestions({ onAccepted }) {
           <p className="text-sm text-gray-400 mb-3">
             No AI quests yet. Generate some based on your goals!
           </p>
-          <button
-            onClick={handleTrigger}
-            disabled={triggering}
-            className="text-sm bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors disabled:opacity-50"
-          >
-            {triggering ? "Generating..." : "✨ Generate AI Quests"}
-          </button>
+          {limitReached ? (
+            <span className="text-xs text-streak">
+              Max 2 generations per day 🌙
+            </span>
+          ) : (
+            <button
+              onClick={handleTrigger}
+              disabled={triggering}
+              className="text-xs text-gray-400 hover:text-primary transition-colors disabled:opacity-50"
+            >
+              {triggering ? "Generating..." : "↻ Refresh"}
+            </button>
+          )}
         </div>
       ) : (
         <div className="space-y-2">
