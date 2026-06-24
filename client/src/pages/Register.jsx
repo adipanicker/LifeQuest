@@ -100,7 +100,7 @@ export default function Register() {
             disabled={loading}
             className="w-full bg-primary text-white py-2.5 rounded-lg text-sm font-medium hover:bg-primary-dark transition-colors disabled:opacity-50 mt-2"
           >
-            {loading ? "Creating accound..." : "Create account"}
+            {loading ? "Creating account..." : "Create account"}
           </button>
         </form>
 
