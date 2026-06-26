@@ -14,18 +14,21 @@ export default function GoalCard({ goal, onComplete, onDelete }) {
     if (daysLeft < 0)
       return {
         text: `${Math.abs(daysLeft)} days overdue`,
-        style: "bg-red-50 text-red-600",
+        style: "bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400",
       };
     if (daysLeft === 0)
-      return { text: "Due today", style: "bg-red-50 text-red-600" };
+      return {
+        text: "Due today",
+        style: "bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400",
+      };
     if (daysLeft <= 3)
       return {
         text: `${daysLeft} days left`,
-        style: "bg-orange-50 text-streak",
+        style: "bg-orange-50 dark:bg-orange-900/20 text-streak",
       };
     return {
       text: `${daysLeft} days left`,
-      style: "bg-gray-100 text-gray-500",
+      style: "bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400",
     };
   };
 
@@ -33,8 +36,10 @@ export default function GoalCard({ goal, onComplete, onDelete }) {
 
   return (
     <div
-      className={`bg-white border rounded-xl overflow-hidden ${
-        goal.is_completed ? "border-gray-100 opacity-70" : "border-gray-200"
+      className={`bg-white dark:bg-gray-900 border rounded-xl overflow-hidden ${
+        goal.is_completed
+          ? "border-gray-100 dark:border-gray-800 opacity-70"
+          : "border-gray-200 dark:border-gray-800"
       }`}
     >
       {/* Top section */}
@@ -42,11 +47,11 @@ export default function GoalCard({ goal, onComplete, onDelete }) {
         {/* Badges row */}
         <div className="flex items-center gap-2 mb-2">
           {goal.is_completed ? (
-            <span className="text-xs font-medium bg-gray-100 text-gray-500 px-2.5 py-0.5 rounded-full">
+            <span className="text-xs font-medium bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 px-2.5 py-0.5 rounded-full">
               completed ✨
             </span>
           ) : (
-            <span className="text-xs font-medium bg-primary-light text-primary-dark px-2.5 py-0.5 rounded-full">
+            <span className="text-xs font-medium bg-primary-light dark:bg-primary/20 text-primary-dark dark:text-primary px-2.5 py-0.5 rounded-full">
               active
             </span>
           )}
@@ -65,14 +70,14 @@ export default function GoalCard({ goal, onComplete, onDelete }) {
             <h3
               className={`text-base font-medium ${
                 goal.is_completed
-                  ? "line-through text-gray-400"
-                  : "text-gray-900"
+                  ? "line-through text-gray-400 dark:text-gray-600"
+                  : "text-gray-900 dark:text-white"
               }`}
             >
               {goal.title}
             </h3>
             {goal.description && (
-              <p className="text-xs text-gray-400 mt-1.5 leading-relaxed">
+              <p className="text-xs text-gray-400 dark:text-gray-500 mt-1.5 leading-relaxed">
                 {goal.description}
               </p>
             )}
@@ -81,14 +86,14 @@ export default function GoalCard({ goal, onComplete, onDelete }) {
             {!goal.is_completed && (
               <button
                 onClick={() => onComplete(goal.id)}
-                className="text-xs font-medium text-primary bg-primary-light px-3 py-1 rounded-full hover:bg-primary hover:text-white transition-colors"
+                className="text-xs font-medium text-primary bg-primary-light dark:bg-primary/20 px-3 py-1 rounded-full hover:bg-primary hover:text-white transition-colors"
               >
                 Mark done
               </button>
             )}
             <button
               onClick={() => onDelete(goal.id)}
-              className="text-gray-300 hover:text-red-400 transition-colors text-xl leading-none"
+              className="text-gray-300 dark:text-gray-600 hover:text-red-400 transition-colors text-xl leading-none"
             >
               ×
             </button>
@@ -102,14 +107,12 @@ export default function GoalCard({ goal, onComplete, onDelete }) {
               {completed} / {total} linked tasks done
             </span>
             <span
-              className={`text-xs font-medium ${
-                percent === 100 ? "text-primary" : "text-gray-500"
-              }`}
+              className={`text-xs font-medium ${percent === 100 ? "text-primary" : "text-gray-500 dark:text-gray-400"}`}
             >
               {percent}%
             </span>
           </div>
-          <div className="bg-gray-100 rounded-full h-1.5 overflow-hidden">
+          <div className="bg-gray-100 dark:bg-gray-800 rounded-full h-1.5 overflow-hidden">
             <div
               className="bg-primary h-full rounded-full transition-all duration-500"
               style={{ width: `${percent}%` }}
@@ -119,7 +122,7 @@ export default function GoalCard({ goal, onComplete, onDelete }) {
       </div>
 
       {/* Stats bar */}
-      <div className="grid grid-cols-3 border-t border-gray-100">
+      <div className="grid grid-cols-3 border-t border-gray-100 dark:border-gray-800">
         <div className="px-4 py-3">
           <p className="text-xs text-gray-400 uppercase tracking-wide mb-1">
             Done
@@ -127,21 +130,21 @@ export default function GoalCard({ goal, onComplete, onDelete }) {
           <p className="text-lg font-medium text-primary">{completed}</p>
           <p className="text-xs text-gray-400">of {total} linked</p>
         </div>
-        <div className="px-4 py-3 border-l border-gray-100">
+        <div className="px-4 py-3 border-l border-gray-100 dark:border-gray-800">
           <p className="text-xs text-gray-400 uppercase tracking-wide mb-1">
             XP earned
           </p>
-          <p className="text-lg font-medium text-gray-900">{xpEarned}</p>
+          <p className="text-lg font-medium text-gray-900 dark:text-white">
+            {xpEarned}
+          </p>
           <p className="text-xs text-gray-400">from this goal</p>
         </div>
-        <div className="px-4 py-3 border-l border-gray-100">
+        <div className="px-4 py-3 border-l border-gray-100 dark:border-gray-800">
           <p className="text-xs text-gray-400 uppercase tracking-wide mb-1">
             Remaining
           </p>
           <p
-            className={`text-lg font-medium ${
-              remaining === 0 ? "text-primary" : "text-streak"
-            }`}
+            className={`text-lg font-medium ${remaining === 0 ? "text-primary" : "text-streak"}`}
           >
             {remaining}
           </p>

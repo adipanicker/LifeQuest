@@ -107,38 +107,36 @@ export default function History() {
   const streakMsg = getStreakMessage(user?.streak || 0);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
       <Navbar />
-
       <div className="max-w-2xl mx-auto px-4 py-6 space-y-4">
         {/* Hero stats */}
-        <div className="bg-white border border-gray-200 rounded-xl p-5">
+        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-5">
           <div className="flex items-center gap-3 mb-4">
             <span className="text-2xl">{streakMsg.emoji}</span>
             <div>
-              <p className="text-base font-medium text-gray-900">
+              <p className="text-base font-medium text-gray-900 dark:text-white">
                 {streakMsg.text}
               </p>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-500 dark:text-gray-400">
                 Here's everything you've conquered so far.
               </p>
             </div>
           </div>
-
           <div className="grid grid-cols-3 gap-3">
-            <div className="bg-gray-50 rounded-lg p-3 text-center">
+            <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-3 text-center">
               <div className="text-xl font-medium text-primary">
                 {totalCompleted}
               </div>
               <div className="text-xs text-gray-400 mt-0.5">quests done</div>
             </div>
-            <div className="bg-gray-50 rounded-lg p-3 text-center">
-              <div className="text-xl font-medium text-gray-900">
+            <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-3 text-center">
+              <div className="text-xl font-medium text-gray-900 dark:text-white">
                 {totalXPEarned}
               </div>
               <div className="text-xs text-gray-400 mt-0.5">XP earned</div>
             </div>
-            <div className="bg-orange-50 rounded-lg p-3 text-center">
+            <div className="bg-orange-50 dark:bg-orange-900/20 rounded-lg p-3 text-center">
               <div className="text-xl font-medium text-streak">
                 {user?.streak || 0} 🔥
               </div>
@@ -148,14 +146,14 @@ export default function History() {
         </div>
 
         {/* Level progress card */}
-        <div className="bg-primary-light border border-green-200 rounded-xl px-5 py-4 flex items-center gap-4">
+        <div className="bg-primary-light dark:bg-primary/10 border border-green-200 dark:border-primary/30 rounded-xl px-5 py-4 flex items-center gap-4">
           <div className="text-3xl">⚔️</div>
           <div className="flex-1">
-            <p className="text-sm font-medium text-primary-dark">
+            <p className="text-sm font-medium text-primary-dark dark:text-primary">
               You're level {user?.level} — top{" "}
               {Math.max(1, 100 - (user?.level || 1) * 5)}% of questers
             </p>
-            <p className="text-xs text-green-600 mt-0.5">
+            <p className="text-xs text-green-600 dark:text-green-500 mt-0.5">
               Every completed quest got you here. Keep going.
             </p>
           </div>
@@ -167,9 +165,11 @@ export default function History() {
             Loading your history...
           </p>
         ) : Object.keys(grouped).length === 0 ? (
-          <div className="bg-white border border-gray-200 rounded-xl p-8 text-center">
+          <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-8 text-center">
             <p className="text-2xl mb-2">🌱</p>
-            <p className="text-sm font-medium text-gray-700">No history yet</p>
+            <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
+              No history yet
+            </p>
             <p className="text-sm text-gray-400 mt-1">
               Complete quests today and they'll appear here tomorrow.
             </p>
@@ -178,64 +178,51 @@ export default function History() {
           sortedGroups.map(([dateLabel, items]) => (
             <div
               key={dateLabel}
-              className="bg-white border border-gray-200 rounded-xl p-4"
+              className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-4"
             >
-              {/* Date header with completion rate*/}
               <div className="flex items-center justify-between mb-3">
-                <p className="text-sm font-medium text-gray-700">{dateLabel}</p>
+                <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                  {dateLabel}
+                </p>
                 <div className="flex items-center gap-2">
                   <span className="text-xs text-gray-400">
                     {items.filter((t) => t.is_completed).length}/{items.length}{" "}
                     done
                   </span>
                   {items.every((t) => t.is_completed) && (
-                    <span className="text-xs bg-primary-light text-primary-dark px-2 py-0.5 rounded-full font-medium">
+                    <span className="text-xs bg-primary-light dark:bg-primary/20 text-primary-dark dark:text-primary px-2 py-0.5 rounded-full font-medium">
                       perfect day ✨
                     </span>
                   )}
                 </div>
               </div>
-              {/* Items */}
               {items.map((todo) => (
                 <div
                   key={todo.id}
-                  className="flex items-center gap-3 py-2.5 border-b border-gray-100 last:border-none"
+                  className="flex items-center gap-3 py-2.5 border-b border-gray-100 dark:border-gray-800 last:border-none"
                 >
-                  {/* Status Dot */}
                   <div
-                    className={`w-2 h-2 rounded-full shrink-0 ${
-                      todo.is_completed ? "bg-primary" : "bg-gray-300"
-                    }`}
+                    className={`w-2 h-2 rounded-full shrink-0 ${todo.is_completed ? "bg-primary" : "bg-gray-300 dark:bg-gray-600"}`}
                   />
-
-                  {/* title */}
                   <span
-                    className={`flex-1 text-sm ${
-                      todo.is_completed ? "text-gray-500" : "text-gray-700"
-                    }`}
+                    className={`flex-1 text-sm ${todo.is_completed ? "text-gray-500 dark:text-gray-400" : "text-gray-700 dark:text-gray-300"}`}
                   >
                     {todo.title}
                   </span>
-
-                  {/* XP badge for completed */}
                   {todo.is_completed && (
-                    <span className="text-xs font-medium text-primary-dark bg-primary-light px-2 py-0.5 rounded-full">
+                    <span className="text-xs font-medium text-primary-dark dark:text-primary bg-primary-light dark:bg-primary/20 px-2 py-0.5 rounded-full">
                       +{todo.xp_reward} XP
                     </span>
                   )}
-
-                  {/* +Today button — shown for ALL archive items */}
                   <button
                     onClick={() => handleResurrect(todo.id)}
-                    className="text-xs text-primary border border-primary-light bg-primary-light px-2.5 py-1 rounded-full hover:bg-primary hover:text-white transition-colors"
+                    className="text-xs text-primary border border-primary-light dark:border-primary/30 bg-primary-light dark:bg-primary/10 px-2.5 py-1 rounded-full hover:bg-primary hover:text-white transition-colors"
                   >
                     + Today
                   </button>
-
-                  {/* Delete */}
                   <button
                     onClick={() => handleDelete(todo.id)}
-                    className="text-gray-300 hover:text-red-400 transition-colors text-lg leading-none"
+                    className="text-gray-300 dark:text-gray-600 hover:text-red-400 transition-colors text-lg leading-none"
                   >
                     ×
                   </button>

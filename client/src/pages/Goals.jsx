@@ -67,17 +67,18 @@ export default function Goals() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
       <Navbar />
-
       <div className="max-w-2xl mx-auto px-4 py-6 space-y-4">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-medium text-gray-900">Your Goals</h1>
-            <p className="text-sm text-gray-500 mt-0.5">
+            <h1 className="text-xl font-medium text-gray-900 dark:text-white">
+              Your Goals
+            </h1>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
               {atLimit
-                ? "Max 3 active goals - complete one to add more."
+                ? "Max 3 active goals — complete one to add more."
                 : `${activeGoals.length}/3 active goals`}
             </p>
           </div>
@@ -86,7 +87,7 @@ export default function Goals() {
             disabled={atLimit}
             className={`text-sm font-medium px-4 py-2 rounded-lg transition-colors ${
               atLimit
-                ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                ? "bg-gray-100 dark:bg-gray-800 text-gray-400 cursor-not-allowed"
                 : "bg-primary text-white hover:bg-primary-dark"
             }`}
           >
@@ -95,9 +96,9 @@ export default function Goals() {
         </div>
 
         {/* Info Banner */}
-        <div className="bg-primary-light border border-green-200 rounded-xl px-4 py-3 flex items-center gap-3">
+        <div className="bg-primary-light dark:bg-primary/10 border border-green-200 dark:border-primary/30 rounded-xl px-4 py-3 flex items-center gap-3">
           <span className="text-lg">⚡</span>
-          <p className="text-sm text-primary-dark">
+          <p className="text-sm text-primary-dark dark:text-primary">
             Todos linked to a goal award <strong>+20 XP</strong> instead of +10.
             Link your tasks to goals to level up faster.
           </p>
@@ -105,28 +106,32 @@ export default function Goals() {
 
         {/* Add Goal Form */}
         {showForm && (
-          <div className="bg-white border border-gray-200 rounded-xl p-4 space-y-3">
-            <h2 className="text-sm font-medium text-gray-900">New Goal</h2>
+          <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-4 space-y-3">
+            <h2 className="text-sm font-medium text-gray-900 dark:text-white">
+              New Goal
+            </h2>
             {error && (
-              <div className="bg-red-50 text-red-600 text-sm px-3 py-2 rounded-lg">
+              <div className="bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-sm px-3 py-2 rounded-lg">
                 {error}
               </div>
             )}
             <div>
-              <label className="block text-xs text-gray-500 mb-1">Title</label>
+              <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">
+                Title
+              </label>
               <input
                 type="text"
                 value={form.title}
                 onChange={(e) => setForm({ ...form, title: e.target.value })}
                 placeholder="e.g. Learn DSA in 30 days"
-                className="w-full text-sm px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 focus:outline-none focus:border-primary"
+                className="w-full text-sm px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-primary"
               />
             </div>
             <div>
-              <label className="block text-xs text-gray-500 mb-1">
+              <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">
                 Description{" "}
                 <span className="text-gray-400">
-                  (Optional but helps AI suggest better tasks)
+                  (optional — helps AI suggest better tasks)
                 </span>
               </label>
               <textarea
@@ -134,20 +139,20 @@ export default function Goals() {
                 onChange={(e) =>
                   setForm({ ...form, description: e.target.value })
                 }
-                placeholder="e.g. I want to solve 30 LeetCode problems in 30 days focusing on arrays, trees and graphs using C++"
+                placeholder="e.g. I want to solve 30 LeetCode problems in 30 days focusing on arrays, trees and graphs"
                 rows={3}
-                className="w-full text-sm px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 focus:outline-none focus:border-primary resize-none"
+                className="w-full text-sm px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-primary resize-none"
               />
             </div>
             <div>
-              <label className="block text-xs text-gray-500 mb-1">
+              <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">
                 Deadline <span className="text-gray-400">(optional)</span>
               </label>
               <input
                 type="date"
                 value={form.deadline}
                 onChange={(e) => setForm({ ...form, deadline: e.target.value })}
-                className="w-full text-sm px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 focus:outline-none focus:border-primary"
+                className="w-full text-sm px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:border-primary"
               />
             </div>
             <div className="flex gap-2 pt-1">
@@ -163,7 +168,7 @@ export default function Goals() {
                   setShowForm(false);
                   setError("");
                 }}
-                className="text-sm text-gray-500 px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors"
+                className="text-sm text-gray-500 dark:text-gray-400 px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
               >
                 Cancel
               </button>
@@ -177,9 +182,9 @@ export default function Goals() {
             Loading goals...
           </p>
         ) : activeGoals.length === 0 && !showForm ? (
-          <div className="bg-white border border-gray-200 rounded-xl p-8 text-center">
+          <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-8 text-center">
             <p className="text-2xl mb-2">🎯</p>
-            <p className="text-sm font-medium text-gray-700">
+            <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
               No active goals yet
             </p>
             <p className="text-sm text-gray-400 mt-1">
@@ -202,7 +207,7 @@ export default function Goals() {
         {/* Completed Goals */}
         {completedGoals.length > 0 && (
           <div className="space-y-3">
-            <p className="text-xs text-gray-400 uppercase tracking-wide">
+            <p className="text-xs text-gray-400 dark:text-gray-600 uppercase tracking-wide">
               Completed goals
             </p>
             {completedGoals.map((goal) => (

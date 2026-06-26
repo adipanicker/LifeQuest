@@ -144,15 +144,15 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
       <Navbar />
       <div className="max-w-2xl mx-auto px-4 py-6">
         {/* Greeting */}
         <div className="mb-5">
-          <h1 className="text-xl font-medium text-gray-900">
+          <h1 className="text-xl font-medium text-gray-900 dark:text-white">
             {greeting()}, {user?.name?.split(" ")[0]} 👋
           </h1>
-          <p className="text-sm text-gray-500 mt-0.5">
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
             {todaysActive.length === 0
               ? "All quests complete! You legend. 🏆"
               : `You have ${todaysActive.length} quests remaining today.`}
@@ -180,18 +180,18 @@ export default function Dashboard() {
           <XPBar xp={user?.xp || 0} level={user?.level || 1} />
         </div>
 
-        {/* AI suggestions */}
+        {/* AI Suggestions */}
         <AISuggestions onAccepted={handleAccept} />
 
         {/* Streak Banner */}
         {user?.streak > 0 && (
-          <div className="bg-orange-50 border border-orange-200 rounded-xl px-4 py-3 mb-4 flex items-center gap-3">
+          <div className="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-xl px-4 py-3 mb-4 flex items-center gap-3">
             <span className="text-xl">🔥</span>
             <div>
-              <p className="text-sm font-medium text-orange-700">
+              <p className="text-sm font-medium text-orange-700 dark:text-orange-400">
                 {user.streak} day streak — keep it going!
               </p>
-              <p className="text-xs text-orange-500 mt-0.5">
+              <p className="text-xs text-orange-500 dark:text-orange-500 mt-0.5">
                 Complete at least 1 task today to keep it alive.
               </p>
             </div>
@@ -199,11 +199,10 @@ export default function Dashboard() {
         )}
 
         {/* Todo Card */}
-        <div className="bg-white border border-gray-200 rounded-xl p-4">
-          <h2 className="text-base font-medium text-gray-900 mb-3">
+        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-4">
+          <h2 className="text-base font-medium text-gray-900 dark:text-white mb-3">
             Today's quests
           </h2>
-          {/* Add Todo */}
           <div className="flex gap-2 mb-4">
             <input
               type="text"
@@ -211,7 +210,7 @@ export default function Dashboard() {
               onChange={(e) => setNewTodo(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="Add a new quest..."
-              className="flex-1 text-sm px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 focus:outline-none focus:border-primary"
+              className="flex-1 text-sm px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-primary"
             />
             <button
               onClick={handleAdd}
@@ -220,7 +219,7 @@ export default function Dashboard() {
               + Add
             </button>
           </div>
-          {/* Todo List */}
+
           {loading ? (
             <p className="text-sm text-gray-400 text-center py-4">
               Loading quests...
@@ -241,10 +240,9 @@ export default function Dashboard() {
                   onLink={handleLink}
                 />
               ))}
-
               {todayDone.length > 0 && (
                 <div className="mt-3">
-                  <p className="text-xs text-gray-400 uppercase tracking-wide mb-2">
+                  <p className="text-xs text-gray-400 dark:text-gray-600 uppercase tracking-wide mb-2">
                     Completed
                   </p>
                   {todayDone.map((todo) => (

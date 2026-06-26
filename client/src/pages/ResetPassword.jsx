@@ -34,13 +34,15 @@ export default function ResetPassword() {
 
   if (success) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
-        <div className="bg-white border border-gray-200 rounded-2xl p-8 w-full max-w-md text-center">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center px-4">
+        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl p-8 w-full max-w-md text-center">
           <div className="text-3xl mb-2">✅</div>
-          <h1 className="text-2xl font-medium text-gray-900">
+
+          <h1 className="text-2xl font-medium text-gray-900 dark:text-white">
             Password reset!
           </h1>
-          <p className="text-sm text-gray-500 mt-2">
+
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
             Redirecting you to login...
           </p>
         </div>
@@ -49,51 +51,57 @@ export default function ResetPassword() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
-      <div className="bg-white border border-gray-200 rounded-2xl p-8 w-full max-w-md">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center px-4">
+      <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl p-8 w-full max-w-md">
         <div className="mb-8 text-center">
           <div className="text-3xl mb-2">🔒</div>
-          <h1 className="text-2xl font-medium text-gray-900">
+
+          <h1 className="text-2xl font-medium text-gray-900 dark:text-white">
             Set new password
           </h1>
-          <p className="text-sm text-gray-500 mt-1">
+
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
             Choose a strong password for your account.
           </p>
         </div>
 
         {error && (
-          <div className="bg-red-50 text-red-600 text-sm px-4 py-3 rounded-lg mb-6">
+          <div className="bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-sm px-4 py-3 rounded-lg mb-6">
             {error}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm text-gray-600 mb-1">
+            <label className="block text-sm text-gray-600 dark:text-gray-300 mb-1">
               New password
             </label>
+
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="min. 6 characters"
               required
-              className="w-full px-4 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:border-primary"
+              className="w-full px-4 py-2.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 text-sm focus:outline-none focus:border-primary"
             />
           </div>
+
           <div>
-            <label className="block text-sm text-gray-600 mb-1">
+            <label className="block text-sm text-gray-600 dark:text-gray-300 mb-1">
               Confirm password
             </label>
+
             <input
               type="password"
               value={confirm}
               onChange={(e) => setConfirm(e.target.value)}
               placeholder="repeat your password"
               required
-              className="w-full px-4 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:border-primary"
+              className="w-full px-4 py-2.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 text-sm focus:outline-none focus:border-primary"
             />
           </div>
+
           <button
             type="submit"
             disabled={loading}
@@ -103,7 +111,7 @@ export default function ResetPassword() {
           </button>
         </form>
 
-        <p className="text-center text-sm text-gray-500 mt-6">
+        <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-6">
           <Link
             to="/login"
             className="text-primary font-medium hover:underline"
