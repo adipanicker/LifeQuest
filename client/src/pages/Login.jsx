@@ -99,6 +99,14 @@ export default function Login() {
             Sign up
           </Link>
         </p>
+        <div className="text-center mt-5">
+          <Link
+            to="/forgot-password"
+            className="text-primary font-medium hover:underline"
+          >
+            Forgot password?
+          </Link>
+        </div>
       </div>
     </div>
   );
