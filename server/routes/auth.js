@@ -6,6 +6,7 @@ const {
   getMe,
   forgotPassword,
   resetPassword,
+  completeOnboarding,
 } = require("../controllers/authController");
 const authMiddleware = require("../middleware/auth");
 
@@ -15,5 +16,6 @@ router.post("/login", login);
 router.get("/me", authMiddleware, getMe);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password", resetPassword);
+router.patch("/onboarding", authMiddleware, completeOnboarding);
 
 module.exports = router;

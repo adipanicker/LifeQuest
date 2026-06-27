@@ -7,6 +7,7 @@ export default function AISuggestions({ onAccepted }) {
   const [triggering, setTriggering] = useState(false);
   const [limitReached, setLimitReached] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
+  const [remaining, setRemaining] = useState(2);
 
   useEffect(() => {
     fetchSuggestions();
@@ -24,12 +25,17 @@ export default function AISuggestions({ onAccepted }) {
   };
 
   const handleTrigger = async () => {
+    if (remaining <= 0) return;
     setTriggering(true);
     try {
       await api.post("/suggestions/trigger");
+      setRemaining((r) => r - 1);
       await fetchSuggestions();
     } catch (err) {
-      if (err.response?.status === 429) setLimitReached(true);
+      if (err.response?.status === 429) {
+        setLimitReached(true);
+        setRemaining(0);
+      }
       console.error(err);
     } finally {
       setTriggering(false);
@@ -77,10 +83,14 @@ export default function AISuggestions({ onAccepted }) {
           {!collapsed && (
             <button
               onClick={handleTrigger}
-              disabled={triggering}
-              className="text-xs text-gray-400 hover:text-primary transition-colors disabled:opacity-50"
+              disabled={triggering || remaining <= 0}
+              className="text-xs text-gray-400 hover:text-primary transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
             >
-              {triggering ? "Generating..." : "↻ Refresh"}
+              {triggering
+                ? "Generating..."
+                : remaining > 0
+                  ? `↻ Refresh (${remaining} left)`
+                  : "Limit reached"}
             </button>
           )}
           <button
@@ -100,7 +110,7 @@ export default function AISuggestions({ onAccepted }) {
               <p className="text-sm text-gray-400 mb-3">
                 No AI quests yet. Generate some based on your goals!
               </p>
-              {limitReached ? (
+              {limitReached || remaining <= 0 ? (
                 <span className="text-xs text-streak">
                   Max 2 generations per day 🌙
                 </span>
@@ -110,7 +120,9 @@ export default function AISuggestions({ onAccepted }) {
                   disabled={triggering}
                   className="text-xs text-gray-400 hover:text-primary transition-colors disabled:opacity-50"
                 >
-                  {triggering ? "Generating..." : "↻ Refresh"}
+                  {triggering
+                    ? "Generating..."
+                    : `↻ Refresh (${remaining} left)`}
                 </button>
               )}
             </div>

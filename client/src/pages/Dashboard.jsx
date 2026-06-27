@@ -6,8 +6,10 @@ import StatCard from "../components/StatCard";
 import XPBar from "../components/XPBar";
 import TodoItem from "../components/TodoItem";
 import AISuggestions from "../components/AISuggestions";
+import Onboarding from "../components/Onboarding";
 import confetti from "canvas-confetti";
 import toast from "react-hot-toast";
+import { playCompleteSound } from "../utils/sounds";
 
 export default function Dashboard() {
   const { user, setUser } = useAuth();
@@ -15,6 +17,7 @@ export default function Dashboard() {
   const [newTodo, setNewTodo] = useState("");
   const [loading, setLoading] = useState(true);
   const [goals, setGoals] = useState([]);
+  const [showOnboarding, setShowOnboarding] = useState(false);
 
   useEffect(() => {
     document.title = "Today's Quests | LifeQuest";
@@ -23,6 +26,13 @@ export default function Dashboard() {
       document.title = "LifeQuest";
     };
   }, []);
+
+  useEffect(() => {
+    if (user && !user.Onboarding_complete && !loading) {
+      const timer = setTimeout(() => setShowOnboarding(true), 500);
+      return () => clearTimeout(timer);
+    }
+  }, [user, loading]);
 
   const greeting = () => {
     const hour = new Date().getHours();
@@ -86,7 +96,7 @@ export default function Dashboard() {
             : t,
         ),
       );
-      setUser(res.data.user);
+      setUser((prev) => ({ ...prev, ...res.data.user }));
 
       //toast banner
       toast("Quest Complete! Keep going 🔥", {
@@ -105,6 +115,7 @@ export default function Dashboard() {
         },
         icon: "⚔️",
       });
+      playCompleteSound();
     } catch (err) {
       console.error(err);
       toast.error("Failed to complete quest.", {
@@ -261,6 +272,9 @@ export default function Dashboard() {
           )}
         </div>
       </div>
+      {showOnboarding && (
+        <Onboarding onComplete={() => setShowOnboarding(false)} />
+      )}
     </div>
   );
 }

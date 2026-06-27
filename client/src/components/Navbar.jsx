@@ -89,7 +89,7 @@ export default function Navbar() {
               }}
               className="w-full text-left text-sm px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors flex items-center justify-between"
             >
-              <span>{dark ? "Toggle Light mode" : "Toggle Dark mode"}</span>
+              <span>{dark ? "Light mode" : "Dark mode"}</span>
               <span>{dark ? "☀️" : "🌙"}</span>
             </button>
 

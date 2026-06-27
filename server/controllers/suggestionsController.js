@@ -58,14 +58,47 @@ const acceptSuggestion = async (req, res) => {
 //POST manually trigger suggestions (for testing)
 const triggerSuggestions = async (req, res) => {
   try {
+    // Get current count and reset date
+    const userResult = await pool.query(
+      "SELECT daily_suggestion_count, suggestion_reset_date FROM users WHERE id = $1",
+      [req.userId],
+    );
+
+    const user = userResult.rows[0];
+    const today = new Date().toISOString().split("T")[0];
+    const resetDate = user.suggestion_reset_date?.toISOString?.().split("T")[0];
+
+    // Reset count if it's a new day
+    if (resetDate !== today) {
+      await pool.query(
+        "UPDATE users SET daily_suggestion_count = 0, suggestion_reset_date = CURRENT_DATE WHERE id = $1",
+        [req.userId],
+      );
+      user.daily_suggestion_count = 0;
+    }
+
+    // Check limit
+    if (user.daily_suggestion_count >= 2) {
+      return res
+        .status(429)
+        .json({ message: "Max 2 AI generations per day. Come back tomorrow!" });
+    }
+
+    // Generate
     await generateSuggestionsForUser(req.userId);
-    res.json({ message: "Suggestios generated successfully" });
+
+    // Increment count
+    await pool.query(
+      "UPDATE users SET daily_suggestion_count = daily_suggestion_count + 1 WHERE id = $1",
+      [req.userId],
+    );
+
+    res.json({ message: "Suggestions generated successfully" });
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ message: "Server error" });
   }
 };
-
 //DELETE dismiss a suggestion
 const dismissSuggestion = async (req, res) => {
   const { id } = req.params;

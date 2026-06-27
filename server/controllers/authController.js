@@ -76,6 +76,7 @@ const login = async (req, res) => {
         xp: user.xp,
         level: user.level,
         streak: user.streak,
+        onboarding_completed: user.Onboarding_complete,
       },
     });
   } catch (err) {
@@ -88,7 +89,7 @@ const getMe = async (req, res) => {
   try {
     console.log("getMe called, userId:", req.userId); // add this
     const result = await pool.query(
-      "SELECT id, name, email, xp, level, streak FROM users WHERE id = $1",
+      "SELECT id, name, email, xp, level, streak, Onboarding_complete FROM users WHERE id = $1",
       [req.userId],
     );
     console.log("query result:", result.rows); // add this
@@ -125,10 +126,6 @@ const forgotPassword = async (req, res) => {
       [token, expires, user.id],
     );
 
-    await pool.query(
-      "UPDATE users SET reset_token = $1, reset_token_expires = $2 WHERE id = $3",
-      [token, expires, user.id],
-    );
     console.log("Token saved to DB:", token);
 
     const resetLink = `${process.env.CLIENT_URL}/reset-password?token=${token}`;
@@ -159,6 +156,7 @@ const forgotPassword = async (req, res) => {
 const resetPassword = async (req, res) => {
   const { token, password } = req.body;
   console.log("Reset token received:", token);
+
   try {
     const result = await pool.query(
       "SELECT id, reset_token_expires FROM users WHERE reset_token = $1",
@@ -190,4 +188,24 @@ const resetPassword = async (req, res) => {
   }
 };
 
-module.exports = { register, login, getMe, forgotPassword, resetPassword };
+const completeOnboarding = async (req, res) => {
+  try {
+    await pool.query(
+      "UPDATE users SET Onboarding_complete = TRUE where id = $1",
+      [req.userId],
+    );
+    res.json({ message: "Onboarding complete" });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+module.exports = {
+  register,
+  login,
+  getMe,
+  forgotPassword,
+  resetPassword,
+  completeOnboarding,
+};
