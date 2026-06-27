@@ -27,8 +27,9 @@ export default function Dashboard() {
     };
   }, []);
 
+  //Onboarding
   useEffect(() => {
-    if (user && !user.Onboarding_complete && !loading) {
+    if (user && !user.onboarding_complete && !loading) {
       const timer = setTimeout(() => setShowOnboarding(true), 500);
       return () => clearTimeout(timer);
     }

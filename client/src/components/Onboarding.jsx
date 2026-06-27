@@ -144,7 +144,7 @@ const steps = [
             <span className="text-xs text-gray-400 px-1">Goals</span>
           </div>
           <div className="w-6 h-6 rounded-full bg-primary-light dark:bg-primary/20 flex items-center justify-center text-xs font-medium text-primary-dark dark:text-primary">
-            J
+            A
           </div>
         </div>
         <div className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-700 rounded-lg p-2 space-y-1">
@@ -200,7 +200,7 @@ export default function Onboarding({ onComplete }) {
     setFinishing(true);
     try {
       await api.patch("/auth/onboarding");
-      setUser((prev) => ({ ...prev, Onboarding_complete: true }));
+      setUser((prev) => ({ ...prev, onboarding_complete: true }));
 
       // Play finish sound
       const ctx = new (window.AudioContext || window.webkitAudioContext)();

@@ -89,7 +89,7 @@ const getMe = async (req, res) => {
   try {
     console.log("getMe called, userId:", req.userId); // add this
     const result = await pool.query(
-      "SELECT id, name, email, xp, level, streak, Onboarding_complete FROM users WHERE id = $1",
+      "SELECT id, name, email, xp, level, streak, onboarding_complete FROM users WHERE id = $1",
       [req.userId],
     );
     console.log("query result:", result.rows); // add this
@@ -191,7 +191,7 @@ const resetPassword = async (req, res) => {
 const completeOnboarding = async (req, res) => {
   try {
     await pool.query(
-      "UPDATE users SET Onboarding_complete = TRUE where id = $1",
+      "UPDATE users SET onboarding_complete = TRUE where id = $1",
       [req.userId],
     );
     res.json({ message: "Onboarding complete" });
