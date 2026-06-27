@@ -15,8 +15,11 @@ const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
   if (loading)
     return (
-      <div className="min-h-screen flex items-center justify-center text-gray-500">
-        Loading...
+      <div className="min-h-screen flex flex-col items-center justify-center bg-white dark:bg-gray-950 gap-3">
+        <span className="text-2xl animate-pulse">⚔️</span>
+        <p className="text-sm text-gray-400 dark:text-gray-500 tracking-wide">
+          Loading your quests...
+        </p>
       </div>
     );
   return user ? children : <Navigate to="/login" />;
@@ -26,8 +29,11 @@ const GuestRoute = ({ children }) => {
   const { user, loading } = useAuth();
   if (loading)
     return (
-      <div className="min-h-screen flex items-center justify-center text-gray-500">
-        Loading...
+      <div className="min-h-screen flex flex-col items-center justify-center bg-white dark:bg-gray-950 gap-3">
+        <span className="text-2xl animate-pulse">⚔️</span>
+        <p className="text-sm text-gray-400 dark:text-gray-500 tracking-wide">
+          Loading your quests...
+        </p>
       </div>
     );
   return user ? <Navigate to="/dashboard" /> : children;
