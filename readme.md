@@ -10,7 +10,7 @@
 
 ## What is LifeQuest?
 
-Most productivity apps are just glorified checklists. LifeQuest turns your daily grind into a game — set real goals, complete daily quests, earn XP, level up, and watch your streak grow. Every task you log becomes part of your history, giving you a record of everything you've accomplished over time.
+Most productivity apps are just glorified checklists. LifeQuest turns your daily grind into a game — set real goals, complete daily quests, earn XP, level up, and watch your streak grow. Every task you log becomes part of your history, giving you a record of everything you've accomplished over time..
 
 ---
 
